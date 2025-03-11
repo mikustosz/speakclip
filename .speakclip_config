@@ -1,0 +1,18 @@
+#!/bin/bash
+
+OPENAI_API_KEY="" # Replace with your actual API key
+
+# Transcription settings
+TRANSCRIPTION_MODEL="whisper-1"
+TRANSCRIPTION_PROMPT="deepsense, deepsense.ai, ChatGPT, OpenAI"  # Put here frequent and hard to transcribe words
+
+# GPT settings
+GPT_MODEL="gpt-4o-mini-audio-preview"  # 4o-mini is faster and cheaper
+# GPT_MODEL="gpt-4o-audio-preview"  # 4o is more accurate but slower
+GPT_SYSTEM_PROMPT="You are a concise and highly focused assistant. You will get an audio user query, and you should do what the user wants. You will get some text context, sometime it's relevant, sometimes it's not. Provide a single, complete answer with no extra commentary, explanations, or multiple options. Keep your response as succinct as possible and free from any inline comments or annotations."
+
+
+# Notification settings
+NOTIFICATION_SOUND="/usr/share/sounds/freedesktop/stereo/message.oga"  # Default notification sound
+# NOTIFICATION_SOUND="/usr/share/sounds/freedesktop/stereo/complete.oga"  # Task completion sound
+NOTIFICATION_VOLUME=0.5  # Volume scale (0-1) 
