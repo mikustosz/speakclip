@@ -5,6 +5,9 @@ source "$HOME/.speakclip_config"
 # Configuration
 RECORDING_INFO_FILE="/tmp/audio_recording.info"
 
+# Function for clipboard copying (supports both Wayland and X11)
+copy_to_clipboard() { [ "$XDG_SESSION_TYPE" = "wayland" ] && echo -n "$1" | wl-copy || echo -n "$1" | xclip -selection clipboard; }
+
 if [ -f "$RECORDING_INFO_FILE" ]; then
     # Stop an ongoing recording
     IFS=':' read -r RECORDING_PID RECORDING_FILE < "$RECORDING_INFO_FILE"
@@ -25,7 +28,7 @@ if [ -f "$RECORDING_INFO_FILE" ]; then
           --form prompt="$TRANSCRIPTION_PROMPT" 2>&1)
 
         # Copy the transcription to clipboard
-        echo -n "$RESPONSE" | wl-copy
+        copy_to_clipboard "$RESPONSE"
         
         # Calculate volume (convert 0-1 scale to 0-65536)
         VOLUME=$(awk "BEGIN {print int($NOTIFICATION_VOLUME * 65536)}")
@@ -45,4 +48,3 @@ else
     RECORDING_PID=$!
     echo "${RECORDING_PID}:${RECORDING_FILE}" > "$RECORDING_INFO_FILE"
 fi
-

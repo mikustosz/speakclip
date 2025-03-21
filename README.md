@@ -8,20 +8,19 @@ Quick voice transcription and integrating GPTs with your clipboard through keybo
 
 - 🎤 Voice-to-text transcription with clipboard integration
 - 🧠 Voice commands with clipboard context for GPT responses  
-- 🐧 Native Wayland support (Ubuntu & other Linux distros)
+- 🐧 Native Linux support
 
 
 ## 📦 Installation
 **Requirements**:
-- 🐧 Ubuntu/Linux with Wayland
+- 🐧 A Linux distribution running Wayland or X11/Xorg
 - 🔑 OpenAI API key
 
 ### Quick setup
 
 #### 1. Install dependencies, clone & configure
 ```bash
-sudo apt update && sudo apt install curl jq wl-clipboard pulseaudio-utils ffmpeg
-
+sudo apt update && sudo apt install curl jq wl-clipboard xclip pulseaudio-utils ffmpeg
 git clone https://github.com/mikustosz/speakclip.git
 cd SpeakClip
 chmod +x scripts/voice_to_text.sh scripts/voice_to_gpt.sh
@@ -30,7 +29,7 @@ nano ~/.speakclip_config  # Add your OpenAI API key here
 ```
 #### 2. Set up keyboard shortcuts
 
-**Ubuntu (GNOME)**:
+**GNOME (Ubuntu, Fedora, etc.)**:
 1. Settings → Keyboard → Shortcuts → Custom Shortcuts → "+"
 2. Add:
    - 📝 **SpeakClip Transcribe**: `Ctrl+Space` → `/path/to/scripts/voice_to_text.sh`

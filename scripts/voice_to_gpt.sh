@@ -5,6 +5,10 @@ source "$HOME/.speakclip_config"
 # Configuration
 RECORDING_INFO_FILE="/tmp/audio_recording.info"
 
+# Functions for clipboard operations (supports both Wayland and X11)
+copy_to_clipboard() { [ "$XDG_SESSION_TYPE" = "wayland" ] && echo -n "$1" | wl-copy || echo -n "$1" | xclip -selection clipboard; }
+paste_from_clipboard() { [ "$XDG_SESSION_TYPE" = "wayland" ] && wl-paste || xclip -selection clipboard -o; }
+
 if [ -f "$RECORDING_INFO_FILE" ]; then
     # Stop an ongoing recording
     IFS=':' read -r RECORDING_PID RECORDING_FILE < "$RECORDING_INFO_FILE"
@@ -18,8 +22,8 @@ if [ -f "$RECORDING_INFO_FILE" ]; then
         MP3_RECORDING_FILE="/tmp/recording_$(date +%Y%m%d_%H%M%S).mp3"
         ffmpeg -y -i "$RECORDING_FILE" -codec:a libmp3lame "$MP3_RECORDING_FILE"
         
-        # Retrieve clipboard text (Wayland)
-        CLIPBOARD_TEXT=$(wl-paste)
+        # Retrieve clipboard text
+        CLIPBOARD_TEXT=$(paste_from_clipboard)
         
         # Create the user prompt with the clipboard content
         USER_PROMPT="TEXT CONTEXT:\n\n${CLIPBOARD_TEXT}"
@@ -68,7 +72,7 @@ if [ -f "$RECORDING_INFO_FILE" ]; then
         MESSAGE=$(echo "$RESPONSE" | jq -r '.choices[0].message.content')
         
         # Copy the extracted message to the clipboard
-        echo -n "$MESSAGE" | wl-copy
+        copy_to_clipboard "$MESSAGE"
         
         # Calculate volume (convert 0-1 scale to 0-65536)
         VOLUME=$(awk "BEGIN {print int($NOTIFICATION_VOLUME * 65536)}")
