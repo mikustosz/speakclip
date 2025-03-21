@@ -22,7 +22,7 @@ Quick voice transcription and integrating GPTs with your clipboard through keybo
 ```bash
 sudo apt update && sudo apt install curl jq wl-clipboard xclip pulseaudio-utils ffmpeg
 git clone https://github.com/mikustosz/speakclip.git
-cd SpeakClip
+cd speakclip
 chmod +x scripts/voice_to_text.sh scripts/voice_to_gpt.sh
 cp .speakclip_config ~/.speakclip_config
 nano ~/.speakclip_config  # Add your OpenAI API key here
